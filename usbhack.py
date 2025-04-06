@@ -1,17 +1,18 @@
-import os, time, codecs
+# Now compatabile with Python3
+import os
+import time
 
-i = 1
-while i > 0:
-    #time.sleep(2)
-    usblist = os.system("wmic diskdrive get serialnumber > usblist.txt")
-    readfile = open("usblist.txt", "r")
-    a = readfile.read()
-    b = unicode(a,"utf_16le")
-    closefile = readfile.close()
+while True:
+    # time.sleep(2)
+    os.system("wmic diskdrive get serialnumber > usblist.txt")
+    
+    with open("usblist.txt", "r", encoding="utf-16le") as readfile:
+        content = readfile.read()
+
     word = "0416KK00000066840822"
-    if word in b:
-        os.system("del \f usblist.txt")
+    os.remove("usblist.txt")  # Cross-platform file delete
+
+    if word in content:
         pass
     else:
-        os.system("del \f usblist.txt")
-        os.system("shutdown -L")
+        os.system("shutdown -l")  # -l (lowercase L) for logoff
